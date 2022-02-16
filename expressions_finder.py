@@ -1,5 +1,3 @@
-# coding: cp1251
-
 
 def expressions_finder(start=9, stop=0, goal=200):
     """
