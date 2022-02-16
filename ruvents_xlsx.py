@@ -28,6 +28,7 @@ df = pd.read_excel('ruvents_task_support.xlsx', sheet_name='Tasks')
 df = df.drop([0])
 
 
+# решение для столбца num1
 def find_even(df):
     """
     Считает, сколько чётных чисел в столбце num1
@@ -39,6 +40,7 @@ def find_even(df):
     return len(ds[ds % 2 == 0])
 
 
+# решение для столбца num2
 def find_primes(df):
     """
     Считает, сколько простых чисел в столбце num2
@@ -73,7 +75,8 @@ def find_primes(df):
     return len(ds[ds.apply(is_prime)])
 
 
-def less_05_2(df):
+# решение для столбца num3
+def less_05(df):
     """
     Считает, сколько чисел меньше 0.5 в столбце num3
 
@@ -88,10 +91,11 @@ def less_05_2(df):
     return len(ds[ds < 0.5])
 
 
-
+# решение для столбца num3 - вариант с регуляркой
 def less_05_regex(df):
     """
     Считает, сколько чисел меньше 0.5 в столбце, используя re
+
     :param df: датафрейм
     :return: int
     """
@@ -104,6 +108,7 @@ def less_05_regex(df):
     return len(ds[ds.apply(less_then_05)])
 
 
+# решение для столбца date1 - вариант 1
 def find_tue(df):
     """
     Считает сколько вторников в столбце data1
@@ -113,11 +118,11 @@ def find_tue(df):
     """
     # Получаем список строк из столбца date1
     to_find_tue = df['date1'].tolist()
-    ds_datetime = pd.to_datetime(df['date2']).dt.dayofweek
 
     return sum([1 for s in to_find_tue if s[:3] == 'Tue'])
 
 
+# решение для столбца date1 - вариант 2
 def find_tue_ds(df):
     """
     Считает сколько вторников в столбце data1
@@ -137,6 +142,7 @@ def find_tue_ds(df):
     return len(ds[ds == 1])
 
 
+# решение для столбца date2
 def find_tue2(df):
     """
     Считает сколько вторников в столбце data2
@@ -154,6 +160,7 @@ def find_tue2(df):
     return len(ds_datetime[ds_datetime == 1])
 
 
+# # решение для столбца date3
 def find_last_tue(df):
     """
     считает сколько последних вторников месяца в столбце date3
@@ -164,6 +171,8 @@ def find_last_tue(df):
 
     def is_last_tue(date):
         """
+        вспомогательная функция
+
         возвращает последний вторник месяца по введённой дате
         и сравнивает день даты и последний вторник
 
@@ -178,6 +187,9 @@ def find_last_tue(df):
         # возвращаем True/False, если введённая дата - это последний вторник месяца
         return date.day == last_tue
 
-    ds = pd.to_datetime(df['date3'])
+    # создаём серию из нужного столбца и переводим его в формат даты
+    # и применяем сразу вспомогательную функцию, которая оставляет True/False
+    ds = pd.to_datetime(df['date3']).apply(is_last_tue)
 
-    return len(ds.apply(is_last_tue))
+    # и считаем, сколько осталось
+    return len(ds[ds])
