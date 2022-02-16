@@ -1,4 +1,3 @@
-
 def expressions_finder(start=9, stop=0, goal=200):
     """
     Функция помещает '+', '-', или '' (ничего)
